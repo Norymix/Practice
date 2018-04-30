@@ -5,15 +5,19 @@
 
 using namespace std;
 
-Balloon Ba;
+actionField action;
 void processSpecialKeys(int key, int x, int y);
+void changeBird(int value);
+void reDraw();
 //точки координат находятся в центре окна
 
 int main( int argc, char *argv[] ) { 
+	
 	glutInit( &argc, argv ); //инициализация окна
 	setWindow();
 	Draw();
-	Ba.drawBalloon();
+	action.drawField();
+	glutTimerFunc(20, changeBird, 0);
 	glutDisplayFunc( Draw ); // вызываем метод отрисовки изображения
 	glutSpecialFunc(processSpecialKeys);
 	glutMainLoop(); //включает цикл обработки событий
@@ -25,20 +29,23 @@ int main( int argc, char *argv[] ) {
 void processSpecialKeys(int key, int x, int y) {
 	switch(key) {
 		case GLUT_KEY_LEFT:
-				Ba.motionLeft();
-				Draw();
+				action.Bal.motionLeft();
 				break;
 		case GLUT_KEY_RIGHT:
-				Ba.motionRight();
-				Draw();
+				action.Bal.motionRight();
 				break;
 		case GLUT_KEY_UP:
-				Ba.motionUp();
-				Draw();
+				action.Bal.motionUp();
 				break;
 		case GLUT_KEY_DOWN:
-				Ba.motionDown();
-				Draw();
+				action.Bal.motionDown();
 				break;
 	}
+}
+
+void changeBird(int value){
+		action.bird.motionBird();
+		action.drawField();
+		Draw();
+		glutTimerFunc(20, changeBird, 0); // Setup next time
 }
